@@ -1,0 +1,129 @@
+*********-------------****** DOCKER FILE *************----------********
+FROM openjdk:17-alpine
+WORKDIR /opt
+ENV PORT 8081
+EXPOSE 8081
+COPY target/*.jar  /opt/app.jar
+ENTRYPOINT exec java $JAVA_OPTS -jar app.jar
+
+
+########--------Docker Compose yml #########----------
+
+version: '3.8'
+
+services:
+  dockertest:
+    image: agraharigirish295/dockertest:0.1
+    ports:
+      - "8080:8080" # Adjust the port mapping as needed
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=your_database_name
+      - MYSQL_USER=your_mysql_username
+      - MYSQL_PASSWORD=your_mysql_password
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306" # Adjust the port mapping as needed
+    environment:
+      MYSQL_ROOT_PASSWORD: your_root_password
+      MYSQL_DATABASE: your_database_name
+      MYSQL_USER: your_mysql_username
+      MYSQL_PASSWORD: your_mysql_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
+
+
+####Docker Run 
+docker run -p 8081:8081 --name dockertest agraharigirish295/dockertest:0.1
+
+
+
+
+Container Management:
+
+docker create: Create a new container.
+docker start: Start one or more stopped containers.
+docker stop: Stop one or more running containers.
+docker restart: Restart one or more containers.
+docker rm: Remove one or more containers.
+docker ps: List running containers.
+docker ps -a: List all containers (including stopped ones).
+
+
+Image Management:
+
+docker images: List all images.
+docker pull: Pull an image from a registry.
+docker build: Build an image from a Dockerfile.
+docker push: Push an image to a registry.
+docker rmi: Remove one or more images.
+
+
+Registry Management:
+
+docker login: Log in to a Docker registry.
+docker logout: Log out from a Docker registry.
+
+
+Network Management:
+
+docker network create: Create a new network.
+docker network ls: List networks.
+docker network rm: Remove one or more networks.
+
+
+Volume Management:
+
+docker volume create: Create a new volume.
+docker volume ls: List volumes.
+docker volume rm: Remove one or more volumes.
+
+
+System Management:
+
+docker info: Display system-wide information.
+docker version: Show the Docker version information.
+docker system prune: Remove all unused data (containers, networks, images, and volumes).
+docker system df: Show Docker disk usage.
+
+
+Miscellaneous:
+
+docker exec: Run a command in a running container.
+docker cp: Copy files/folders between a container and the local filesystem.
+docker inspect: Display detailed information about one or more containers/images/networks/volumes.
+Docker Compose Commands:
+
+
+Lifecycle:
+
+docker-compose up: Create and start containers.
+docker-compose down: Stop and remove containers, networks, images, and volumes.
+docker-compose start: Start services.
+docker-compose stop: Stop services.
+docker-compose restart: Restart services.
+docker-compose pause: Pause services.
+docker-compose unpause: Unpause services.
+
+
+Management:
+
+docker-compose ps: List containers.
+docker-compose logs: View output from services.
+docker-compose exec: Execute a command in a running container.
+
+
+Miscellaneous:
+
+docker-compose build: Build or rebuild services.
+docker-compose config: Validate and view the compose file.
+docker-compose pull: Pull images for services.
